@@ -46,7 +46,7 @@ namespace FirebaseDemo
             var project = "firestoredemo-262aa";
             var path = "C:\\Users\\brad.JCW\\Desktop\\FirestoreCredentials.JSON";
             //var credential = GoogleCredential.FromFile(path);
-            var credential = GoogleCredential.FromJson(path);
+            var credential = GoogleCredential.FromFile(path);
 
             Channel channel = new Channel(
             FirestoreClient.DefaultEndpoint.Host, FirestoreClient.DefaultEndpoint.Port,
