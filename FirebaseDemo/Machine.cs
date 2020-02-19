@@ -13,6 +13,9 @@ namespace FirebaseDemo
         [FirestoreDocumentId]
         public string ReferenceId { get; set; }
 
+        [FirestoreDocumentId]
+        public DocumentReference Reference { get; set; }
+
         [FirestoreDocumentCreateTimestamp]
         public Timestamp CreateTime { get; set; }
 

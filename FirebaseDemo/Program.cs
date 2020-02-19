@@ -13,7 +13,7 @@ using Firebase.Auth;
 namespace FirebaseDemo
 {
 
-    static class Program
+     static class Program
     {
 
         /// <summary>
@@ -61,7 +61,6 @@ namespace FirebaseDemo
 
             FirestoreDb db = FirestoreDb.Create(project, client);
 
-
             //CreateUser(db);
 
             Tool tool = new Tool
@@ -80,7 +79,7 @@ namespace FirebaseDemo
             {
                 Name = "Mikron HSM 200U LP",
                 Ip = "192.168.1.150",
-                MachineName = "MIkron 1",
+                MachineName = "Mikron 1",
                 Tool = tool,
                 ExecutationData = executionData
             };
@@ -92,7 +91,6 @@ namespace FirebaseDemo
         {
             CollectionReference collection = db.Collection("Machines");
 
-
             DocumentReference document = await collection.AddAsync(machine);
 
             // Fetch the data back from the server and deserialize it.
@@ -100,7 +98,24 @@ namespace FirebaseDemo
             Machine machineSnapshot = snapshot.ConvertTo<Machine>();
             Console.WriteLine(machineSnapshot.MachineName); // Mikron 1
             Console.WriteLine("reference id: " + snapshot.Id);
-            Console.WriteLine("reference id: " + machine.ReferenceId);
+            Console.WriteLine("create time: " + machineSnapshot.CreateTime);
+
+            machineSnapshot.Tool.Name = "5MM BM BLAH BLAH";
+            await UpdateMachine(machineSnapshot);
+
+        }
+
+        private static async Task UpdateMachine(Machine machine)
+        {
+            DocumentReference document = machine.Reference;
+
+            await document.SetAsync(machine, SetOptions.MergeAll);
+
+            // Fetch the data back from the server and deserialize it.
+            DocumentSnapshot snapshot = await document.GetSnapshotAsync();
+            Machine machineSnapshot = snapshot.ConvertTo<Machine>();
+            Console.WriteLine(machineSnapshot.Tool.Name); // 5MM BM BLAH BLAH
+            Console.WriteLine("update time: " + machineSnapshot.UpdateTime);
 
         }
 
